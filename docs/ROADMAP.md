@@ -6,7 +6,7 @@
 - [x] Unit utilities; UTC + offset time storage
 - [ ] Persist the device id across launches
 - [ ] Export format v1 (JSON)
-- [ ] CI (analyze + test)
+- [x] CI (GitHub Actions: codegen up to date, format, analyze, test, Android debug build)
 
 ## Phase 1: MVP ("usable daily")
 - Profile and health booklet basics: conditions, medications, allergies, vaccinations

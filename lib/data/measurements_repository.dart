@@ -63,11 +63,10 @@ class MeasurementsRepository {
   }
 
   Stream<List<Measurement>> watchRecent(String profileId, {int limit = 50}) {
-    final q =
-        _db.select(_db.measurements)
-          ..where((m) => m.profileId.equals(profileId) & m.deletedAt.isNull())
-          ..orderBy([(m) => OrderingTerm.desc(m.measuredAt)])
-          ..limit(limit);
+    final q = _db.select(_db.measurements)
+      ..where((m) => m.profileId.equals(profileId) & m.deletedAt.isNull())
+      ..orderBy([(m) => OrderingTerm.desc(m.measuredAt)])
+      ..limit(limit);
     return q.watch();
   }
 }

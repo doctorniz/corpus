@@ -184,30 +184,26 @@ class $ProfilesTable extends Profiles with TableInfo<$ProfilesTable, Profile> {
   Profile map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Profile(
-      id:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}id'],
-          )!,
-      createdAt:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.dateTime,
-            data['${effectivePrefix}created_at'],
-          )!,
-      updatedAt:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.dateTime,
-            data['${effectivePrefix}updated_at'],
-          )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
       deletedAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}deleted_at'],
       ),
-      displayName:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}display_name'],
-          )!,
+      displayName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}display_name'],
+      )!,
       dateOfBirth: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}date_of_birth'],
@@ -216,11 +212,10 @@ class $ProfilesTable extends Profiles with TableInfo<$ProfilesTable, Profile> {
         DriftSqlType.string,
         data['${effectivePrefix}sex'],
       ),
-      unitSystem:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}unit_system'],
-          )!,
+      unitSystem: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}unit_system'],
+      )!,
     );
   }
 
@@ -278,15 +273,13 @@ class Profile extends DataClass implements Insertable<Profile> {
       id: Value(id),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
-      deletedAt:
-          deletedAt == null && nullToAbsent
-              ? const Value.absent()
-              : Value(deletedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
       displayName: Value(displayName),
-      dateOfBirth:
-          dateOfBirth == null && nullToAbsent
-              ? const Value.absent()
-              : Value(dateOfBirth),
+      dateOfBirth: dateOfBirth == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dateOfBirth),
       sex: sex == null && nullToAbsent ? const Value.absent() : Value(sex),
       unitSystem: Value(unitSystem),
     );
@@ -348,13 +341,16 @@ class Profile extends DataClass implements Insertable<Profile> {
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
-      displayName:
-          data.displayName.present ? data.displayName.value : this.displayName,
-      dateOfBirth:
-          data.dateOfBirth.present ? data.dateOfBirth.value : this.dateOfBirth,
+      displayName: data.displayName.present
+          ? data.displayName.value
+          : this.displayName,
+      dateOfBirth: data.dateOfBirth.present
+          ? data.dateOfBirth.value
+          : this.dateOfBirth,
       sex: data.sex.present ? data.sex.value : this.sex,
-      unitSystem:
-          data.unitSystem.present ? data.unitSystem.value : this.unitSystem,
+      unitSystem: data.unitSystem.present
+          ? data.unitSystem.value
+          : this.unitSystem,
     );
   }
 
@@ -787,60 +783,50 @@ class $MeasurementsTable extends Measurements
   Measurement map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Measurement(
-      id:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}id'],
-          )!,
-      createdAt:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.dateTime,
-            data['${effectivePrefix}created_at'],
-          )!,
-      updatedAt:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.dateTime,
-            data['${effectivePrefix}updated_at'],
-          )!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
       deletedAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}deleted_at'],
       ),
-      profileId:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}profile_id'],
-          )!,
-      type:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}type'],
-          )!,
-      value:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.double,
-            data['${effectivePrefix}value'],
-          )!,
-      unit:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}unit'],
-          )!,
-      measuredAt:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.dateTime,
-            data['${effectivePrefix}measured_at'],
-          )!,
-      tzOffsetMinutes:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
-            data['${effectivePrefix}tz_offset_minutes'],
-          )!,
-      source:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}source'],
-          )!,
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      )!,
+      value: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}value'],
+      )!,
+      unit: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}unit'],
+      )!,
+      measuredAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}measured_at'],
+      )!,
+      tzOffsetMinutes: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tz_offset_minutes'],
+      )!,
+      source: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source'],
+      )!,
       notes: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}notes'],
@@ -914,10 +900,9 @@ class Measurement extends DataClass implements Insertable<Measurement> {
       id: Value(id),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
-      deletedAt:
-          deletedAt == null && nullToAbsent
-              ? const Value.absent()
-              : Value(deletedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
       profileId: Value(profileId),
       type: Value(type),
       value: Value(value),
@@ -925,8 +910,9 @@ class Measurement extends DataClass implements Insertable<Measurement> {
       measuredAt: Value(measuredAt),
       tzOffsetMinutes: Value(tzOffsetMinutes),
       source: Value(source),
-      notes:
-          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
     );
   }
 
@@ -1006,12 +992,12 @@ class Measurement extends DataClass implements Insertable<Measurement> {
       type: data.type.present ? data.type.value : this.type,
       value: data.value.present ? data.value.value : this.value,
       unit: data.unit.present ? data.unit.value : this.unit,
-      measuredAt:
-          data.measuredAt.present ? data.measuredAt.value : this.measuredAt,
-      tzOffsetMinutes:
-          data.tzOffsetMinutes.present
-              ? data.tzOffsetMinutes.value
-              : this.tzOffsetMinutes,
+      measuredAt: data.measuredAt.present
+          ? data.measuredAt.value
+          : this.measuredAt,
+      tzOffsetMinutes: data.tzOffsetMinutes.present
+          ? data.tzOffsetMinutes.value
+          : this.tzOffsetMinutes,
       source: data.source.present ? data.source.value : this.source,
       notes: data.notes.present ? data.notes.value : this.notes,
     );
@@ -1409,41 +1395,34 @@ class $ChangeLogTable extends ChangeLog
   ChangeLogData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ChangeLogData(
-      seq:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.int,
-            data['${effectivePrefix}seq'],
-          )!,
-      entity:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}entity'],
-          )!,
-      entityId:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}entity_id'],
-          )!,
-      op:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}op'],
-          )!,
-      payload:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}payload'],
-          )!,
-      at:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.dateTime,
-            data['${effectivePrefix}at'],
-          )!,
-      deviceId:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}device_id'],
-          )!,
+      seq: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}seq'],
+      )!,
+      entity: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity'],
+      )!,
+      entityId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity_id'],
+      )!,
+      op: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}op'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+      at: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}at'],
+      )!,
+      deviceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}device_id'],
+      )!,
     );
   }
 
@@ -1717,30 +1696,28 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   ];
 }
 
-typedef $$ProfilesTableCreateCompanionBuilder =
-    ProfilesCompanion Function({
-      required String id,
-      required DateTime createdAt,
-      required DateTime updatedAt,
-      Value<DateTime?> deletedAt,
-      required String displayName,
-      Value<DateTime?> dateOfBirth,
-      Value<String?> sex,
-      Value<String> unitSystem,
-      Value<int> rowid,
-    });
-typedef $$ProfilesTableUpdateCompanionBuilder =
-    ProfilesCompanion Function({
-      Value<String> id,
-      Value<DateTime> createdAt,
-      Value<DateTime> updatedAt,
-      Value<DateTime?> deletedAt,
-      Value<String> displayName,
-      Value<DateTime?> dateOfBirth,
-      Value<String?> sex,
-      Value<String> unitSystem,
-      Value<int> rowid,
-    });
+typedef $$ProfilesTableCreateCompanionBuilder = ProfilesCompanion Function({
+  required String id,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<DateTime?> deletedAt,
+  required String displayName,
+  Value<DateTime?> dateOfBirth,
+  Value<String?> sex,
+  Value<String> unitSystem,
+  Value<int> rowid,
+});
+typedef $$ProfilesTableUpdateCompanionBuilder = ProfilesCompanion Function({
+  Value<String> id,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<DateTime?> deletedAt,
+  Value<String> displayName,
+  Value<DateTime?> dateOfBirth,
+  Value<String?> sex,
+  Value<String> unitSystem,
+  Value<int> rowid,
+});
 
 final class $$ProfilesTableReferences
     extends BaseReferences<_$AppDatabase, $ProfilesTable, Profile> {
@@ -1975,12 +1952,12 @@ class $$ProfilesTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer:
-              () => $$ProfilesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer:
-              () => $$ProfilesTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer:
-              () => $$ProfilesTableAnnotationComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$ProfilesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ProfilesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ProfilesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<String> id = const Value.absent(),
@@ -2025,16 +2002,14 @@ class $$ProfilesTableTableManager
                 unitSystem: unitSystem,
                 rowid: rowid,
               ),
-          withReferenceMapper:
-              (p0) =>
-                  p0
-                      .map(
-                        (e) => (
-                          e.readTable<$ProfilesTable, Profile>(table),
-                          $$ProfilesTableReferences(db, table, e),
-                        ),
-                      )
-                      .toList(),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ProfilesTable, Profile>(table),
+                  $$ProfilesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
           prefetchHooksCallback: ({measurementsRefs = false}) {
             return PrefetchHooks(
               db: db,
@@ -2052,13 +2027,11 @@ class $$ProfilesTableTableManager
                       currentTable: table,
                       referencedTable: $$ProfilesTableReferences
                           ._measurementsRefsTable(db),
-                      managerFromTypedResult:
-                          (p0) =>
-                              $$ProfilesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).measurementsRefs,
+                      managerFromTypedResult: (p0) => $$ProfilesTableReferences(
+                        db,
+                        table,
+                        p0,
+                      ).measurementsRefs,
                       currentColumn: 'id',
                       referencedColumn: 'profile_id',
                       typedResults: items,
@@ -2406,13 +2379,12 @@ class $$MeasurementsTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer:
-              () => $$MeasurementsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer:
-              () => $$MeasurementsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer:
-              () =>
-                  $$MeasurementsTableAnnotationComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$MeasurementsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MeasurementsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MeasurementsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<String> id = const Value.absent(),
@@ -2473,52 +2445,48 @@ class $$MeasurementsTableTableManager
                 notes: notes,
                 rowid: rowid,
               ),
-          withReferenceMapper:
-              (p0) =>
-                  p0
-                      .map(
-                        (e) => (
-                          e.readTable<$MeasurementsTable, Measurement>(table),
-                          $$MeasurementsTableReferences(db, table, e),
-                        ),
-                      )
-                      .toList(),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$MeasurementsTable, Measurement>(table),
+                  $$MeasurementsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
           prefetchHooksCallback: ({profileId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins: <
-                T extends TableManagerState<
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic,
-                  dynamic
-                >
-              >(state) {
-                if (profileId) {
-                  state =
-                      state.withJoin(
-                            currentTable: table,
-                            currentColumn: table.profileId,
-                            referencedTable: $$MeasurementsTableReferences
-                                ._profileIdTable(db),
-                            referencedColumn:
-                                $$MeasurementsTableReferences
-                                    ._profileIdTable(db)
-                                    .id,
-                          )
-                          as T;
-                }
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (profileId) {
+                      state = state.withJoin(
+                        currentTable: table,
+                        currentColumn: table.profileId,
+                        referencedTable: $$MeasurementsTableReferences
+                            ._profileIdTable(db),
+                        referencedColumn: $$MeasurementsTableReferences
+                            ._profileIdTable(db)
+                            .id,
+                      ) as T;
+                    }
 
-                return state;
-              },
+                    return state;
+                  },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
@@ -2542,26 +2510,24 @@ typedef $$MeasurementsTableProcessedTableManager =
       Measurement,
       PrefetchHooks Function({bool profileId})
     >;
-typedef $$ChangeLogTableCreateCompanionBuilder =
-    ChangeLogCompanion Function({
-      Value<int> seq,
-      required String entity,
-      required String entityId,
-      required String op,
-      required String payload,
-      required DateTime at,
-      required String deviceId,
-    });
-typedef $$ChangeLogTableUpdateCompanionBuilder =
-    ChangeLogCompanion Function({
-      Value<int> seq,
-      Value<String> entity,
-      Value<String> entityId,
-      Value<String> op,
-      Value<String> payload,
-      Value<DateTime> at,
-      Value<String> deviceId,
-    });
+typedef $$ChangeLogTableCreateCompanionBuilder = ChangeLogCompanion Function({
+  Value<int> seq,
+  required String entity,
+  required String entityId,
+  required String op,
+  required String payload,
+  required DateTime at,
+  required String deviceId,
+});
+typedef $$ChangeLogTableUpdateCompanionBuilder = ChangeLogCompanion Function({
+  Value<int> seq,
+  Value<String> entity,
+  Value<String> entityId,
+  Value<String> op,
+  Value<String> payload,
+  Value<DateTime> at,
+  Value<String> deviceId,
+});
 
 class $$ChangeLogTableFilterComposer
     extends Composer<_$AppDatabase, $ChangeLogTable> {
@@ -2707,12 +2673,12 @@ class $$ChangeLogTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer:
-              () => $$ChangeLogTableFilterComposer($db: db, $table: table),
-          createOrderingComposer:
-              () => $$ChangeLogTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer:
-              () => $$ChangeLogTableAnnotationComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$ChangeLogTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChangeLogTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChangeLogTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<int> seq = const Value.absent(),
@@ -2749,20 +2715,18 @@ class $$ChangeLogTableTableManager
                 at: at,
                 deviceId: deviceId,
               ),
-          withReferenceMapper:
-              (p0) =>
-                  p0
-                      .map(
-                        (e) => (
-                          e.readTable<$ChangeLogTable, ChangeLogData>(table),
-                          BaseReferences<
-                            _$AppDatabase,
-                            $ChangeLogTable,
-                            ChangeLogData
-                          >(db, table, e),
-                        ),
-                      )
-                      .toList(),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$ChangeLogTable, ChangeLogData>(table),
+                  BaseReferences<_$AppDatabase, $ChangeLogTable, ChangeLogData>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
           prefetchHooksCallback: null,
         ),
       );

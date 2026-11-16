@@ -31,23 +31,19 @@ class TodayScreen extends ConsumerWidget {
       body: recent.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Could not load data: $e')),
-        data:
-            (items) =>
-                items.isEmpty
-                    ? const Center(child: Text('Nothing logged yet.'))
-                    : ListView.builder(
-                      itemCount: items.length,
-                      itemBuilder: (context, i) {
-                        final m = items[i];
-                        return ListTile(
-                          leading: const Icon(Icons.monitor_weight_outlined),
-                          title: Text(
-                            '${m.value.toStringAsFixed(1)} ${m.unit}',
-                          ),
-                          subtitle: Text(fmt.format(m.measuredAt.toLocal())),
-                        );
-                      },
-                    ),
+        data: (items) => items.isEmpty
+            ? const Center(child: Text('Nothing logged yet.'))
+            : ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, i) {
+                  final m = items[i];
+                  return ListTile(
+                    leading: const Icon(Icons.monitor_weight_outlined),
+                    title: Text('${m.value.toStringAsFixed(1)} ${m.unit}'),
+                    subtitle: Text(fmt.format(m.measuredAt.toLocal())),
+                  );
+                },
+              ),
       ),
     );
   }
@@ -56,32 +52,28 @@ class TodayScreen extends ConsumerWidget {
     final controller = TextEditingController();
     final value = await showDialog<double>(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('Log weight'),
-            content: TextField(
-              controller: controller,
-              autofocus: true,
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-              ),
-              decoration: const InputDecoration(suffixText: 'kg'),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
-              ),
-              FilledButton(
-                onPressed:
-                    () => Navigator.pop(
-                      context,
-                      double.tryParse(controller.text.replaceAll(',', '.')),
-                    ),
-                child: const Text('Save'),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: const Text('Log weight'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          decoration: const InputDecoration(suffixText: 'kg'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
           ),
+          FilledButton(
+            onPressed: () => Navigator.pop(
+              context,
+              double.tryParse(controller.text.replaceAll(',', '.')),
+            ),
+            child: const Text('Save'),
+          ),
+        ],
+      ),
     );
     controller.dispose();
     if (value == null || value <= 0) return;
