@@ -19,8 +19,8 @@ migration:
       create_revision: ab2912035e160d9cad6306df307576da6128ebdb
       base_revision: ab2912035e160d9cad6306df307576da6128ebdb
     - platform: ios
-      create_revision: ea121f8859e4b13e47a8f845e4586164519588bc
-      base_revision: ea121f8859e4b13e47a8f845e4586164519588bc
+      create_revision: ab2912035e160d9cad6306df307576da6128ebdb
+      base_revision: ab2912035e160d9cad6306df307576da6128ebdb
     - platform: linux
       create_revision: ea121f8859e4b13e47a8f845e4586164519588bc
       base_revision: ea121f8859e4b13e47a8f845e4586164519588bc

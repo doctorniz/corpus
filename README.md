@@ -1,30 +1,32 @@
 # Corpus
 
-**A local-first personal health booklet.** One place to record and understand your own body: medical records, fitness and activity, nutrition and habits. Your data lives on your device, in formats you own.
+**A local-first personal health booklet.** One place to record and understand your own body: medical records, fitness and activity, sleep, nutrition, cycle and habits. Your data lives on your device, in formats you own.
 
-> Status: early scaffold. The app shell, local database and a weight quick-add work; the modules are placeholders.
+> Status: early but working. All six areas are usable on Android (tested on an emulator, including Health Connect sync). The iOS app is compiled by CI; it has not been run on an iPhone yet (see [iOS release](docs/IOS_RELEASE.md)).
 >
 > ⚠️ The local database is **not encrypted yet** (see [ADR 0004](docs/adr/0004-encryption-deferred.md)). It relies on OS-level device encryption.
 
-## What it is
+## What it does
 
-Corpus is an all-in-one tracker that combines:
+The bottom bar has four tabs and a round **+** in the middle that logs anything from anywhere. Habits, Women's health and Settings are in the top-right menu.
 
-| Area | What you track |
+| Area | What it holds |
 |---|---|
-| **Health booklet** | Conditions, medications, allergies, vaccinations, lab results, doctor visits, documents, vitals |
-| **Fitness & activity** | Workouts, exercises/sets/reps, cardio sessions, steps, sleep, body measurements |
-| **Nutrition** | Meals, foods, macros/micros, water, supplements |
-| **Habits** | Daily/weekly habits, streaks, check-ins, mood and energy |
+| **Health** | Medical history, medications, allergies, surgeries, vaccinations, appointments, doctors and specialists, clinic letters, scans, lab reports (each with attached files and photos), lab results with trends against reference ranges, and vitals |
+| **Fitness** | Workout log (gym sets, runs, rides…), weekly activity, steps, weight trend, per-exercise progress |
+| **Sleep** | Nightly duration against a target, usual bedtime, history |
+| **Nutrition** | Food diary by meal with calorie and macro targets, about 7,800 bundled foods (USDA), your own foods, quick add, water |
+| **Women's health** | Period and symptom calendar, cycle and period averages, predicted next period and fertile window |
+| **Habits** | Daily or selected-day habits (done / count), streaks, last-seven-days view |
 
-All four share one timeline and one data store, so you can see across them, for example how sleep relates to training load, or whether a new medication changed your resting heart rate.
+**Health sync (optional, off by default):** two-way with Apple Health and Google Health Connect. Steps, workouts, sleep, weight, height, body fat, resting heart rate, blood pressure and menstrual flow are imported, so any watch or tracker that syncs to your phone feeds Corpus. What you log in Corpus is written back.
 
 ## Core promises
 
-1. **Local-first.** Works fully offline. No account required. The device is the source of truth.
-2. **You own the data.** Open, documented storage plus full export at any time (JSON/CSV).
-3. **Private by default.** No telemetry, no ads, no third-party analytics. Sync, if used, is optional and end-to-end encrypted.
-4. **One app, not five.** Health records, training, food and habits in a single coherent model.
+1. **Local-first.** Works fully offline. No account. The device is the source of truth.
+2. **You own the data.** One SQLite file plus a full JSON export (Settings › Export everything).
+3. **Private by default.** No telemetry, no ads, no network calls. Health sync talks only to the on-device health store.
+4. **One app, not five.**
 
 ## Development
 
@@ -34,20 +36,27 @@ Requires Flutter 3.50+ (Dart 3.14) and, for Android builds, JDK 21.
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs   # drift codegen; rerun after table changes
 flutter test
-flutter run -d windows        # or: android, ios, macos, linux
+flutter run                   # on a connected phone or emulator
 ```
 
-Stack: Flutter · drift (SQLite) · Riverpod · go_router. See [Architecture](docs/ARCHITECTURE.md).
+- Debug APKs are large (~180 MB). For a small emulator build: `flutter build apk --release --target-platform android-x64 --split-per-abi`.
+- The bundled food list is `assets/foods.bin`, built by `tool/build_foods.dart`.
+- iOS builds need a Mac; CI does them. See [docs/IOS_RELEASE.md](docs/IOS_RELEASE.md).
+
+Stack: Flutter · drift (SQLite) · Riverpod · go_router · fl_chart · health. See [Architecture](docs/ARCHITECTURE.md).
 
 ## License
 
-[AGPL-3.0](LICENSE)
+[AGPL-3.0](LICENSE). Food data: USDA FoodData Central (public domain).
+
+Corpus is not a medical device and does not give medical advice.
 
 ## Docs
 
-- [Vision & goals](docs/VISION.md): why this exists, goals, non-goals, principles
-- [Features](docs/FEATURES.md): module-by-module scope
-- [Data model](docs/DATA_MODEL.md): core entities and how they relate
-- [Architecture](docs/ARCHITECTURE.md): local-first design, storage, sync, security, open decisions
-- [Roadmap](docs/ROADMAP.md): phased plan from MVP onward
-- [Decision records](docs/adr/): platform, stack, license, encryption
+- [Vision & goals](docs/VISION.md)
+- [Features](docs/FEATURES.md): what is built and what is not
+- [Data model](docs/DATA_MODEL.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Roadmap](docs/ROADMAP.md)
+- [iOS release / TestFlight](docs/IOS_RELEASE.md)
+- [Decision records](docs/adr/)

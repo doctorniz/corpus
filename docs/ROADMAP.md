@@ -1,37 +1,34 @@
-# Roadmap (draft)
+# Roadmap
 
-## Phase 0: Foundations
-- [x] Decide platform, stack, license and encryption (see [ADRs](adr/))
-- [x] Project scaffold, SQLite schema v1 (profiles, measurements, change_log), migration hook
-- [x] Unit utilities; UTC + offset time storage
-- [ ] Persist the device id across launches
-- [ ] Export format v1 (JSON)
-- [x] CI (GitHub Actions: codegen up to date, format, analyze, test, Android debug build)
+## Done
 
-## Phase 1: MVP ("usable daily")
-- Profile and health booklet basics: conditions, medications, allergies, vaccinations
-- Generic measurements: weight, vitals, steps, sleep
-- Workout logging with exercise library and templates
-- Meal logging with a bundled offline food DB and calorie/macro targets
-- Habits with streaks; daily mood/energy check-in
-- Today view, unified timeline, quick-add
-- Full JSON/CSV export and import; local backup file
+- [x] Decisions on platform, stack, license, encryption, health sync, food data, iOS delivery ([ADRs](adr/))
+- [x] Database schema v2, migrations, change log, persistent device id
+- [x] All six areas usable: Health, Fitness, Sleep, Nutrition, Women's health, Habits
+- [x] **+** sheet to log anything
+- [x] Two-way sync with Health Connect (verified on an Android emulator) and Apple Health (written, not yet run on a device)
+- [x] Bundled offline food database
+- [x] JSON export
+- [x] CI: generated code, format, analyze, tests, Android build, unsigned iOS build
+- [x] TestFlight workflow (needs Apple secrets before its first run)
 
-## Phase 2: Depth & insight
-- Lab results with reference ranges; visits; document vault
-- Charts and trends for every measurement; PRs and training volume
-- Weekly summaries and cross-domain correlations
-- Local reminders (medications, habits, water)
-- Encryption at rest and app lock
-- Doctor summary PDF export
+## Next
 
-## Phase 3: Connect
-- Imports: Apple Health, Health Connect, GPX/FIT, CSV from other apps
-- E2E-encrypted multi-device sync
-- Barcode scanning
-- Multiple profiles (family)
+- [ ] First TestFlight build; test HealthKit on a real iPhone
+- [ ] Test on a real Android phone with a tracker feeding Health Connect
+- [ ] Edit saved workouts, sleep and meals; propagate deletes to the health store
+- [ ] App icon and splash screen
+- [ ] Import from a JSON export; encrypted backup file
+- [ ] Encryption at rest and app lock
+- [ ] Medication reminders and dose log; habit reminders
+- [ ] Doctor-ready PDF summary
+- [ ] Choose which tabs sit in the bottom bar
 
-## Later / ideas
-- Optional on-device AI summaries and Q&A over your own data
-- Cycle tracking, symptom tracking
-- Plugin/extension system for custom trackers
+## Later
+
+- [ ] Recipes, micronutrients, barcode / branded foods (opt-in online lookup)
+- [ ] Health Connect history beyond 30 days; background sync
+- [ ] GPX/FIT import, workout templates
+- [ ] Cross-area insights (sleep vs. training, nutrition vs. weight)
+- [ ] Multi-device sync, multiple profiles
+- [ ] Play Store / App Store release (privacy policy, store listings, health-data declarations)

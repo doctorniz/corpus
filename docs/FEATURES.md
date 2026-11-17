@@ -1,59 +1,71 @@
 # Features
 
-Priority tags: **[MVP]** first release · **[Next]** soon after · **[Later]** nice to have.
+✅ built · ◻ not yet.
 
-## 1. Health booklet
+## Navigation
 
-- Profile: date of birth, sex, height, blood type, emergency contacts **[MVP]**
-- Conditions / diagnoses with status (active, resolved) and dates **[MVP]**
-- Medications: dose, schedule, start/stop dates, reminders **[MVP]**
-- Allergies and intolerances with severity **[MVP]**
-- Vaccinations / immunization record **[MVP]**
-- Vitals: blood pressure, resting HR, temperature, SpO₂, glucose **[MVP]**
-- Lab results with reference ranges and trend charts **[Next]**
-- Appointments and visit notes (provider, reason, outcome) **[Next]**
-- Document vault: scans, PDFs, images attached to any record **[Next]**
-- Family history **[Later]**
-- Doctor-ready summary export (PDF) **[Next]**
+- ✅ Bottom bar: Health · Fitness · **+** · Sleep · Nutrition
+- ✅ **+** sheet: food, water, workout, sleep, weight, blood pressure, other vitals, habits, period, lab result, health record
+- ✅ Menu: Habits, Women's health, Settings, light / system / dark theme
+- ◻ Choosing which four tabs sit in the bar
 
-## 2. Fitness & activity
+## Health
 
-- Workout log: exercises, sets, reps, weight, RPE, rest **[MVP]**
-- Exercise library (built-in plus custom) **[MVP]**
-- Workout templates / routines **[MVP]**
-- Cardio sessions: distance, duration, pace, HR **[MVP]**
-- Body measurements: weight, body fat, circumferences, progress photos **[MVP]**
-- Daily steps and sleep (manual entry) **[MVP]**
-- Personal records and volume/progression charts **[Next]**
-- Import from wearables/platforms (Apple Health, Health Connect, GPX/FIT files) **[Later]**
+- ✅ Medical history (conditions), medications, allergies, surgeries and procedures, vaccinations
+- ✅ Appointments, doctors and specialists
+- ✅ Clinic letters, scans and imaging, lab reports
+- ✅ Files on any record: pick a document, take a photo, or choose from the photo library; open with the phone's viewer
+- ✅ Lab results: per-test history and trend chart with the reference range shaded; out-of-range values flagged
+- ✅ Vitals: weight, blood pressure, resting heart rate, temperature, glucose, oxygen saturation, body fat, height, each with history and trend
+- ✅ Summary card: allergies and current medications at the top of the tab
+- ◻ Medication reminders and dose log
+- ◻ Doctor-ready PDF summary
+- ◻ Family history
 
-## 3. Nutrition
+## Fitness
 
-- Meal logging by meal slot **[MVP]**
-- Food database: local and offline, plus custom foods and recipes **[MVP]**
-- Calories and macros; daily targets **[MVP]**
-- Water intake **[MVP]**
-- Supplements (linked to the medication schedule model) **[Next]**
-- Micronutrients **[Next]**
-- Barcode scanning (local lookup, optional online lookup) **[Later]**
+- ✅ Log a workout: activity, time, duration, distance, energy, average heart rate, notes
+- ✅ Strength sets (exercise, reps, weight) with exercise suggestions
+- ✅ This week's totals, active minutes for 12 weeks, steps for 14 days, weight trend
+- ✅ Workout detail with pace; best-set progress chart per exercise
+- ◻ Editing a saved workout (delete and re-log for now)
+- ◻ Workout templates, GPS routes, GPX/FIT import
 
-## 4. Habits
+## Sleep
 
-- Define habits: daily, X per week, specific days; boolean, count or duration **[MVP]**
-- Check-ins, streaks, completion calendar **[MVP]**
-- Mood / energy / stress daily rating **[MVP]**
-- Free-form journal entries **[Next]**
-- Reminders / notifications (local) **[Next]**
+- ✅ Log a night (times, quality, notes); 14-night chart against target; average and usual bedtime
+- ◻ Sleep stages
 
-## Cross-cutting
+## Nutrition
 
-- **Today view**: everything due or loggable today in one screen **[MVP]**
-- **Unified timeline**: all entries across modules, filterable **[MVP]**
-- **Quick-add** from anywhere **[MVP]**
-- **Export / import**: full JSON and per-module CSV **[MVP]**
-- **Backups**: local encrypted backup file **[MVP]**
-- **Trends & insights**: charts, weekly summaries, cross-domain correlations **[Next]**
-- **Tags** on any entry **[Next]**
-- **Encryption at rest** with app lock (PIN/biometric) **[Next]**
-- **Multi-device sync**, E2E encrypted **[Later]**
-- **Multiple profiles** (e.g. family members, children) **[Later]**
+- ✅ Diary by meal for any day; calorie and macro totals against targets
+- ✅ Search ~7,800 bundled foods offline; recent foods; portions from typical servings
+- ✅ Quick add (type calories and macros); your own foods
+- ✅ Water with one-tap +250 / +500 ml; 14-day energy chart
+- ◻ Recipes, micronutrients, barcode scanning, branded products
+
+## Women's health
+
+- ✅ Month calendar: log flow, symptoms and notes per day
+- ✅ Cycle day, average cycle and period length, predicted periods and estimated fertile window
+- ✅ Can be hidden in Settings
+
+## Habits
+
+- ✅ Done / not-done and count habits, on every day or chosen weekdays
+- ✅ One-tap check-in, streaks, last seven days
+- ◻ Reminders; daily mood / energy check-in
+
+## Health sync (Apple Health / Health Connect)
+
+- ✅ Import: steps, weight, height, body fat, resting heart rate, blood pressure, workouts, sleep, menstrual flow
+- ✅ Write back what is logged by hand: weight, height, body fat, resting heart rate, blood pressure, workouts, sleep, water, meals, menstrual flow
+- ✅ Syncs on launch, on return to the app, and on demand; the first sync reaches back 30 days
+- ◻ Deleting or editing in Corpus does not yet update the health store
+- ◻ Background sync; history older than 30 days
+
+## Data
+
+- ✅ Everything in one local SQLite database; every write also goes to a change log
+- ✅ Export everything as JSON
+- ◻ Import from an export; encrypted backups; encryption at rest and app lock; multi-device sync
