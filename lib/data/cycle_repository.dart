@@ -190,8 +190,13 @@ class CycleStats {
 
     int? avgPeriod;
     // The latest period may still be in progress, so leave it out if we can.
+    final now = dateOnly(today ?? DateTime.now());
+    final ongoing =
+        periods.isNotEmpty && now.difference(periods.last.last).inDays <= 1;
     final complete = periods.length > 1
         ? periods.sublist(0, periods.length - 1)
+        : ongoing
+        ? const <List<DateTime>>[]
         : periods;
     if (complete.isNotEmpty) {
       final lengths = [
@@ -200,7 +205,6 @@ class CycleStats {
       avgPeriod = (lengths.reduce((a, b) => a + b) / lengths.length).round();
     }
 
-    final now = dateOnly(today ?? DateTime.now());
     DateTime? next;
     int? cycleDay;
     if (starts.isNotEmpty) {

@@ -267,7 +267,11 @@ class _WomensState extends ConsumerState<WomensScreen> {
                   Stat(
                     label: 'Average period',
                     value: stats.averagePeriodDays?.toString() ?? '–',
-                    unit: stats.averagePeriodDays == null ? null : 'days',
+                    unit: switch (stats.averagePeriodDays) {
+                      null => null,
+                      1 => 'day',
+                      _ => 'days',
+                    },
                   ),
                   Stat(
                     label: 'Periods logged',

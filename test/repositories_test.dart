@@ -373,6 +373,20 @@ void main() {
       expect(stats.fertileDays(), contains('2026-10-16'));
     });
 
+    test('a first period still in progress has no average yet', () async {
+      final repo = CycleRepository(c);
+      await repo.setDay(DateTime(2026, 11, 17), flow: 3);
+      final days = await repo.watchAll().first;
+      expect(
+        CycleStats.from(days, today: DateTime(2026, 11, 17)).averagePeriodDays,
+        isNull,
+      );
+      expect(
+        CycleStats.from(days, today: DateTime(2026, 11, 25)).averagePeriodDays,
+        1,
+      );
+    });
+
     test('no data gives no prediction', () {
       final stats = CycleStats.from(const []);
       expect(stats.nextPeriod, isNull);
