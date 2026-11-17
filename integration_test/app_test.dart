@@ -180,6 +180,17 @@ void main() {
       }
       expect(tester.takeException(), isNull);
 
+      // Presenting the system's Apple Health sheet makes iOS switch
+      // accessibility on, and the framework then holds a semantics handle the
+      // end-of-test check reports as a leak. Switch it back off here.
+      // ignore: avoid_print
+      print(
+        'Platform accessibility on at end of test: '
+        '${tester.platformDispatcher.semanticsEnabled}',
+      );
+      tester.platformDispatcher.semanticsEnabledTestValue = false;
+      await tester.pump();
+
       // On a phone, leave a marker in the app's own storage that CI reads to
       // know every step above passed (iOS does not route the test's printed
       // output to the console CI can see).
