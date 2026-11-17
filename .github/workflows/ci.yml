@@ -91,6 +91,8 @@ jobs:
     needs: check
     runs-on: macos-latest
     timeout-minutes: 60
+    env:
+      BUNDLE: app.corpus.corpus
     steps:
       - uses: actions/checkout@v4
 
@@ -117,25 +119,50 @@ jobs:
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b
           xcrun simctl list devices | grep "$UDID"
-
-      - name: Record the screen and take screenshots
-        run: |
           mkdir -p ios-run
-          xcrun simctl io "${{ steps.sim.outputs.udid }}" recordVideo --codec=h264 ios-run/run.mp4 &
-          echo $! > ios-run/video.pid
-          ( for i in $(seq -w 1 60); do
-              sleep 6
-              xcrun simctl io "${{ steps.sim.outputs.udid }}" screenshot "ios-run/shot-$i.png" >/dev/null 2>&1 || true
-            done ) &
 
+      # 1. The plain app, launched the way a person would open it. A debug
+      #    build runs on the simulator without a debugger attached.
+      - name: Launch the app
+        timeout-minutes: 25
+        run: |
+          UDID="${{ steps.sim.outputs.udid }}"
+          flutter build ios --simulator --debug
+          xcrun simctl install "$UDID" build/ios/iphonesimulator/Runner.app
+          xcrun simctl launch --terminate-running-process --console-pty "$UDID" "$BUNDLE" > ios-run/app-console.log 2>&1 &
+          sleep 25
+          xcrun simctl io "$UDID" screenshot ios-run/01-app-launched.png
+          echo "---- app console ----"; cat ios-run/app-console.log
+
+      # 2. The same app driving itself through every area. The end-to-end
+      #    test is compiled in as the app's entry point and runs on launch;
+      #    its progress and result are printed to the console.
       - name: Run the app end to end
-        run: flutter test integration_test -d "${{ steps.sim.outputs.udid }}" --reporter expanded
+        timeout-minutes: 25
+        run: |
+          UDID="${{ steps.sim.outputs.udid }}"
+          xcrun simctl uninstall "$UDID" "$BUNDLE" || true
+          flutter build ios --simulator --debug -t integration_test/app_test.dart
+          xcrun simctl install "$UDID" build/ios/iphonesimulator/Runner.app
 
-      - name: Stop recording
+          xcrun simctl io "$UDID" recordVideo --codec=h264 --force ios-run/e2e.mp4 &
+          VIDEO=$!
+          ( for i in $(seq -w 1 40); do sleep 5; xcrun simctl io "$UDID" screenshot "ios-run/e2e-$i.png" >/dev/null 2>&1 || true; done ) &
+
+          xcrun simctl launch --terminate-running-process --console-pty "$UDID" "$BUNDLE" > ios-run/e2e-console.log 2>&1 &
+          for i in $(seq 1 300); do
+            if grep -qE "All tests passed|Some tests failed|tests? failed|EXCEPTION CAUGHT" ios-run/e2e-console.log; then break; fi
+            sleep 2
+          done
+          sleep 3
+          kill -INT $VIDEO 2>/dev/null || true
+          sleep 3
+          echo "---- end-to-end console ----"; cat ios-run/e2e-console.log
+          grep -q "All tests passed" ios-run/e2e-console.log
+
+      - name: Final screenshot
         if: always()
         run: |
-          kill -INT "$(cat ios-run/video.pid)" 2>/dev/null || true
-          sleep 3
           xcrun simctl io "${{ steps.sim.outputs.udid }}" screenshot ios-run/final.png || true
           ls -la ios-run
 
@@ -143,7 +170,5 @@ jobs:
         if: always()
         with:
           name: ios-simulator-run
-          path: |
-            ios-run/*.png
-            ios-run/*.mp4
+          path: ios-run/
           retention-days: 14
