@@ -10,6 +10,7 @@ import 'package:corpus/main.dart' as app;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future<void> settle(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 300));
@@ -173,5 +174,13 @@ void main() {
       }
     }
     expect(tester.takeException(), isNull);
+
+    // On a phone, leave a marker in the app's own storage that CI reads to
+    // know every step above passed (iOS does not route the test's printed
+    // output to the console CI can see).
+    if (Platform.isIOS || Platform.isAndroid) {
+      final dir = await getApplicationDocumentsDirectory();
+      File('${dir.path}/e2e-result.txt').writeAsStringSync('PASS');
+    }
   });
 }
