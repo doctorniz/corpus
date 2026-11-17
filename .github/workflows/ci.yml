@@ -85,3 +85,65 @@ jobs:
       # Compiles the app for a real device without signing it. Signed
       # builds for TestFlight are made by testflight.yml.
       - run: flutter build ios --release --no-codesign
+
+  ios-simulator:
+    name: Run on iPhone simulator
+    needs: check
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.50.0
+          cache: true
+
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Boot an iPhone simulator
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c '
+          import json, sys
+          devices = json.load(sys.stdin)["devices"]
+          phones = [(rt, d) for rt, ds in devices.items() if "iOS" in rt
+                    for d in ds if d["name"].startswith("iPhone")]
+          phones.sort(key=lambda p: p[0])
+          print(phones[-1][1]["udid"])')
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl list devices | grep "$UDID"
+
+      - name: Record the screen and take screenshots
+        run: |
+          mkdir -p ios-run
+          xcrun simctl io "${{ steps.sim.outputs.udid }}" recordVideo --codec=h264 ios-run/run.mp4 &
+          echo $! > ios-run/video.pid
+          ( for i in $(seq -w 1 60); do
+              sleep 6
+              xcrun simctl io "${{ steps.sim.outputs.udid }}" screenshot "ios-run/shot-$i.png" >/dev/null 2>&1 || true
+            done ) &
+
+      - name: Run the app end to end
+        run: flutter test integration_test -d "${{ steps.sim.outputs.udid }}" --reporter expanded
+
+      - name: Stop recording
+        if: always()
+        run: |
+          kill -INT "$(cat ios-run/video.pid)" 2>/dev/null || true
+          sleep 3
+          xcrun simctl io "${{ steps.sim.outputs.udid }}" screenshot ios-run/final.png || true
+          ls -la ios-run
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-simulator-run
+          path: |
+            ios-run/*.png
+            ios-run/*.mp4
+          retention-days: 14
