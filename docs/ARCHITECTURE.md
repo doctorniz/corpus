@@ -59,6 +59,7 @@ lib/
     health/             booklet sections, labs, vitals
     fitness/ sleep/ nutrition/ womens/ habits/ settings/
 test/                   repository tests and whole-app widget tests (in-memory SQLite)
+integration_test/       drives the real app end to end; CI runs it on an iPhone simulator
 tool/build_foods.dart   builds assets/foods.bin
 ```
 

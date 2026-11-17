@@ -6,10 +6,10 @@
 - [x] Database schema v2, migrations, change log, persistent device id
 - [x] All six areas usable: Health, Fitness, Sleep, Nutrition, Women's health, Habits
 - [x] **+** sheet to log anything
-- [x] Two-way sync with Health Connect (verified on an Android emulator) and Apple Health (written, not yet run on a device)
+- [x] Two-way sync with Health Connect (verified on an Android emulator) and Apple Health (permission request verified on an iPhone simulator; import and write-back not yet run on iOS)
 - [x] Bundled offline food database
 - [x] JSON export
-- [x] CI: generated code, format, analyze, tests, Android build, unsigned iOS build
+- [x] CI: generated code, format, analyze, tests, Android build, unsigned iOS build, end-to-end run on an iPhone simulator
 - [x] TestFlight workflow (needs Apple secrets before its first run)
 
 ## Next

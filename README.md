@@ -2,7 +2,7 @@
 
 **A local-first personal health booklet.** One place to record and understand your own body: medical records, fitness and activity, sleep, nutrition, cycle and habits. Your data lives on your device, in formats you own.
 
-> Status: early but working. All six areas are usable on Android (tested on an emulator, including Health Connect sync). The iOS app is compiled by CI; it has not been run on an iPhone yet (see [iOS release](docs/IOS_RELEASE.md)).
+> Status: early but working on Android and iOS. Android was tested by hand on an emulator, including Health Connect sync. On iOS, CI runs the app on an iPhone simulator through every area on each push, up to Apple Health's permission sheet; it has not yet run on a physical iPhone (see [iOS release](docs/IOS_RELEASE.md)).
 >
 > ⚠️ The local database is **not encrypted yet** (see [ADR 0004](docs/adr/0004-encryption-deferred.md)). It relies on OS-level device encryption.
 
@@ -36,6 +36,7 @@ Requires Flutter 3.50+ (Dart 3.14) and, for Android builds, JDK 21.
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs   # drift codegen; rerun after table changes
 flutter test
+flutter test integration_test -d <device>   # drives the real app end to end
 flutter run                   # on a connected phone or emulator
 ```
 
