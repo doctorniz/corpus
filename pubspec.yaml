@@ -82,6 +82,20 @@ flutter:
   assets:
     - assets/foods.bin
 
+  # Inter, as in Mentis. Bundled (SIL OFL, assets/fonts/inter/OFL.txt): the
+  # app makes no network calls.
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/inter/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/inter/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/inter/Inter-Bold.ttf
+          weight: 700
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

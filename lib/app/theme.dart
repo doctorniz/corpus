@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
-/// The palette shared with Mentis: neutral greys and one indigo accent.
+/// Mentis's palette (Open Color greys) with Corpus's own accent: a matte
+/// sage green in place of Mentis's indigo.
 @immutable
 class CorpusColors extends ThemeExtension<CorpusColors> {
   const CorpusColors({
@@ -50,8 +51,8 @@ class CorpusColors extends ThemeExtension<CorpusColors> {
     fgTertiary: Color(0xFF868E96),
     fgMuted: Color(0xFFADB5BD),
     border: Color(0xFFDEE2E6),
-    accent: Color(0xFF5C4EE5),
-    accentLight: Color(0xFFECE9FD),
+    accent: Color(0xFF43785A), // 5.2:1 under white text
+    accentLight: Color(0xFFE6EFE9),
     accentFg: Color(0xFFFFFFFF),
     danger: Color(0xFFE03131),
     warning: Color(0xFFF08C00),
@@ -70,9 +71,9 @@ class CorpusColors extends ThemeExtension<CorpusColors> {
     fgTertiary: Color(0xFF909296),
     fgMuted: Color(0xFF5C5F66),
     border: Color(0xFF373A40),
-    accent: Color(0xFF7C6EF5),
-    accentLight: Color(0xFF2B2541),
-    accentFg: Color(0xFFFFFFFF),
+    accent: Color(0xFF7FB08F), // 7:1 on bg; too light for white text
+    accentLight: Color(0xFF223229),
+    accentFg: Color(0xFF12241A),
     danger: Color(0xFFFF6B6B),
     warning: Color(0xFFFFA94D),
     success: Color(0xFF51CF66),
@@ -126,6 +127,7 @@ ThemeData buildTheme(Brightness brightness) {
     brightness: brightness,
     colorScheme: scheme,
     scaffoldBackgroundColor: c.bg,
+    fontFamily: 'Inter',
     extensions: [c],
     splashFactory: NoSplash.splashFactory,
   );
@@ -160,11 +162,14 @@ ThemeData buildTheme(Brightness brightness) {
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: false,
+      // Mentis's masthead: a hairline under it, a modest title.
+      shape: Border(bottom: BorderSide(color: c.border)),
       titleTextStyle: TextStyle(
+        fontFamily: 'Inter',
         color: c.fg,
-        fontSize: 20,
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.4,
+        fontSize: 17,
+        fontWeight: FontWeight.w600,
+        letterSpacing: -0.2,
       ),
     ),
     dividerTheme: DividerThemeData(color: c.border, thickness: 1, space: 1),
@@ -239,13 +244,18 @@ ThemeData buildTheme(Brightness brightness) {
       contentTextStyle: TextStyle(color: c.bg),
       shape: RoundedRectangleBorder(borderRadius: radius),
     ),
+    // Mentis's segmented control: a grey track, the chosen segment raised
+    // in the page colour.
     segmentedButtonTheme: SegmentedButtonThemeData(
       style: SegmentedButton.styleFrom(
-        selectedBackgroundColor: c.accentLight,
-        selectedForegroundColor: c.accent,
+        backgroundColor: c.bgTertiary,
+        selectedBackgroundColor: c.bg,
+        selectedForegroundColor: c.fg,
         foregroundColor: c.fgSecondary,
-        side: BorderSide(color: c.border),
+        side: BorderSide(color: c.bgTertiary, width: 2),
         shape: RoundedRectangleBorder(borderRadius: radius),
+        textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+        visualDensity: VisualDensity.compact,
       ),
     ),
     progressIndicatorTheme: ProgressIndicatorThemeData(

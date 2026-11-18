@@ -49,7 +49,7 @@
 ```
 lib/
   main.dart             opens the database, then starts the app
-  app/                  app widget, theme (Mentis palette), router, bottom bar + menu, providers
+  app/                  app widget, theme (Mentis style, matte green), router, bottom bar + drawer menu, providers
   core/                 database tables, ids, units, activity list
   data/                 repositories, export, the HealthBridge interface
   services/             health sync, bundled-food loader
@@ -69,6 +69,7 @@ tool/build_foods.dart   builds assets/foods.bin
 - **Android assets:** do not give a bundled asset a `.gz` extension; Android's packaging drops it.
 - **iOS:** deployment target 15.0; HealthKit entitlement in `ios/Runner/Runner.entitlements`; usage strings in `Info.plist`.
 - **Desktop:** builds and runs; health sync and camera capture are hidden there.
+- **Look:** Mentis's greys, layout and Inter font (bundled in `assets/fonts/inter`, SIL OFL) with a matte green accent (`#43785A` light, `#7FB08F` dark) in `lib/app/theme.dart`.
 
 ## Still open
 
