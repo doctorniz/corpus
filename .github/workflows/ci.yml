@@ -44,7 +44,7 @@ jobs:
         run: flutter test
 
   build-android:
-    name: Build Android (debug)
+    name: Build Android (release, size budget)
     needs: check
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -64,4 +64,129 @@ jobs:
 
       - run: flutter pub get
       - run: dart run build_runner build --delete-conflicting-outputs
-      - run: flutter build apk --debug
+      - run: flutter build apk --release --target-platform android-arm64 --split-per-abi
+      # budgets.json; never raise a budget to make this pass (CLAUDE.md).
+      - name: Check the APK size budget
+        run: dart run tool/check_budgets.dart androidApk build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+
+  build-ios:
+    name: Build iOS (unsigned)
+    needs: check
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.50.0
+          cache: true
+
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+      # Compiles the app for a real device without signing it. Signed
+      # builds for TestFlight are made by testflight.yml.
+      - run: flutter build ios --release --no-codesign
+
+  ios-simulator:
+    name: Run on iPhone simulator
+    needs: check
+    runs-on: macos-latest
+    timeout-minutes: 60
+    env:
+      BUNDLE: app.corpus.corpus
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.50.0
+          cache: true
+
+      - run: flutter pub get
+      - run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Boot an iPhone simulator
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c '
+          import json, sys
+          devices = json.load(sys.stdin)["devices"]
+          phones = [(rt, d) for rt, ds in devices.items() if "iOS" in rt
+                    for d in ds if d["name"].startswith("iPhone")]
+          phones.sort(key=lambda p: p[0])
+          print(phones[-1][1]["udid"])')
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl list devices | grep "$UDID"
+          mkdir -p ios-run
+
+      # 1. The plain app, launched the way a person would open it. A debug
+      #    build runs on the simulator without a debugger attached.
+      - name: Launch the app
+        timeout-minutes: 25
+        run: |
+          UDID="${{ steps.sim.outputs.udid }}"
+          flutter build ios --simulator --debug
+          xcrun simctl install "$UDID" build/ios/iphonesimulator/Runner.app
+          xcrun simctl launch --terminate-running-process --console-pty "$UDID" "$BUNDLE" > ios-run/app-console.log 2>&1 &
+          sleep 25
+          xcrun simctl io "$UDID" screenshot ios-run/01-app-launched.png
+          echo "---- app console ----"; cat ios-run/app-console.log
+
+      # 2. The same app driving itself through every area. The end-to-end
+      #    test is compiled in as the app's entry point and runs on launch;
+      #    its progress and result are printed to the console.
+      - name: Run the app end to end
+        timeout-minutes: 25
+        run: |
+          UDID="${{ steps.sim.outputs.udid }}"
+          xcrun simctl uninstall "$UDID" "$BUNDLE" || true
+          flutter build ios --simulator --debug -t integration_test/app_test.dart
+          xcrun simctl install "$UDID" build/ios/iphonesimulator/Runner.app
+
+          xcrun simctl io "$UDID" recordVideo --codec=h264 --force ios-run/e2e.mp4 &
+          VIDEO=$!
+          ( for i in $(seq -w 1 40); do sleep 5; xcrun simctl io "$UDID" screenshot "ios-run/e2e-$i.png" >/dev/null 2>&1 || true; done ) &
+
+          # The app's own log (Dart output, test progress and failures).
+          xcrun simctl spawn "$UDID" log stream --level debug --style compact             --predicate 'process == "Runner"' > ios-run/e2e-log.txt 2>&1 &
+          LOG=$!
+
+          xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE"
+          DATA=$(xcrun simctl get_app_container "$UDID" "$BUNDLE" data)
+          RESULT="$DATA/Documents/e2e-result.txt"
+          # The test writes this file only after every step has passed.
+          for i in $(seq 1 240); do
+            grep -qE "All tests passed|Some tests failed" ios-run/e2e-log.txt && break
+            sleep 2
+          done
+          sleep 3
+          kill -INT $VIDEO $LOG 2>/dev/null || true
+          sleep 3
+          echo "---- app log (test output) ----"
+          grep -E "flutter|EXCEPTION|Expected|Actual|Timed out|tests passed|failed" ios-run/e2e-log.txt | tail -60 || true
+          # Pass needs both: the marker (every step ran) and the test
+          # runner's own verdict (no failure in its end-of-test checks).
+          if [ -f "$RESULT" ] && grep -q "All tests passed" ios-run/e2e-log.txt; then
+            echo "End-to-end test PASSED on the iPhone simulator."
+          else
+            echo "::error::End-to-end test did not finish on the iPhone simulator. See ios-run/e2e-log.txt and the screenshots."
+            exit 1
+          fi
+
+      - name: Final screenshot
+        if: always()
+        run: |
+          xcrun simctl io "${{ steps.sim.outputs.udid }}" screenshot ios-run/final.png || true
+          ls -la ios-run
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-simulator-run
+          path: ios-run/
+          retention-days: 14

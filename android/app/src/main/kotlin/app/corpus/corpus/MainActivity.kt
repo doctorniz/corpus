@@ -1,5 +1,7 @@
 package app.corpus.corpus
 
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : FlutterActivity()
+// FlutterFragmentActivity (not FlutterActivity) is required by the health
+// plugin to show the Health Connect permission screen.
+class MainActivity : FlutterFragmentActivity()

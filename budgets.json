@@ -1,0 +1,15 @@
+{
+  "$comment": "Performance budgets from CLAUDE.md. Raising a number here is a deliberate change: commit it on its own, never to make a build pass. `enforce: false` means measured and reported but not failing. Sizes: tool/check_budgets.dart (CI, Build Android). Timings: test/budgets_test.dart (reported); cold start is measured by hand on a phone.",
+  "size": {
+    "androidApk": {
+      "label": "Android release APK, one ABI (arm64-v8a)",
+      "maxBytes": 26000000,
+      "enforce": true
+    }
+  },
+  "timing": {
+    "mobileColdStartMs": { "label": "Mobile cold start", "max": 1800, "enforce": false },
+    "firstFoodSearchMs": { "label": "First food search results", "max": 50, "enforce": false },
+    "logEntryMs": { "label": "Save a log entry", "max": 100, "enforce": false }
+  }
+}
