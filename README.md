@@ -42,6 +42,7 @@ flutter run                   # on a connected phone or emulator
 
 - Debug APKs are large (~180 MB). For a small emulator build: `flutter build apk --release --target-platform android-x64 --split-per-abi`.
 - The bundled food list is `assets/foods.bin`, built by `tool/build_foods.dart`.
+- Size and speed budgets are in `budgets.json`; CI fails an APK over its size budget.
 - iOS builds need a Mac; CI does them. See [docs/IOS_RELEASE.md](docs/IOS_RELEASE.md).
 
 Stack: Flutter · drift (SQLite) · Riverpod · go_router · fl_chart · health. See [Architecture](docs/ARCHITECTURE.md).
@@ -54,10 +55,13 @@ Corpus is not a medical device and does not give medical advice.
 
 ## Docs
 
+- [Project rules](CLAUDE.md): principles, settled decisions, budgets, working agreement
 - [Vision & goals](docs/VISION.md)
 - [Features](docs/FEATURES.md): what is built and what is not
 - [Data model](docs/DATA_MODEL.md)
 - [Architecture](docs/ARCHITECTURE.md)
+- [Code conventions](docs/CONVENTIONS.md)
+- [Pre-launch deferrals](docs/LAUNCH_DEFERRALS.md): known gaps and the manual verification queue
 - [Roadmap](docs/ROADMAP.md)
 - [iOS release / TestFlight](docs/IOS_RELEASE.md)
 - [Decision records](docs/adr/)

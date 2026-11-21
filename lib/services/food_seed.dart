@@ -62,6 +62,6 @@ Future<void> seedBundledFoods(
     await nutrition.replaceBundledFoods(foods);
     await settings.set(SettingKey.foodsVersion, bundledFoodsVersion);
   } catch (e) {
-    debugPrint('Could not load the bundled food list: $e');
+    debugPrint('[foods] Could not load the bundled food list: $e');
   }
 }

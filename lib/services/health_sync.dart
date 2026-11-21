@@ -100,6 +100,7 @@ class HealthSyncService implements HealthBridge {
       context.bridge = this;
       await sync();
     } catch (e) {
+      debugPrint('[health] Could not start: $e');
       lastError.value = 'Health sync could not start: $e';
     }
   }
@@ -381,10 +382,10 @@ class HealthSyncService implements HealthBridge {
     if (!_enabled) return;
     try {
       if (!await write()) {
-        debugPrint('Health write-back skipped ($what)');
+        debugPrint('[health] Write-back skipped ($what)');
       }
     } catch (e) {
-      debugPrint('Health write-back failed ($what): $e');
+      debugPrint('[health] Write-back failed ($what): $e');
     }
   }
 
